@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+    color-scheme: light;
+    font-family: 'Manrope', sans-serif;
+    color: #18251e;
+    background: #e9ede5;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: min(100%, 1600px);
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 22px clamp(14px, 3vw, 42px) 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+    grid-template-rows: auto minmax(420px, 1fr) auto;
+    gap: 14px;
+}
+
+h1 {
+    min-height: 78px;
+    margin: 0;
+    padding: 12px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-column: 1 / -1;
+    color: #f3f4ed;
+    background: #1d3026;
+    border-left: 5px solid #d4ed5e;
+    border-radius: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+#logo {
+    display: block;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+#map {
+    width: 100%;
+    height: min(70svh, 900px);
+    min-height: 420px;
+    grid-column: 1 / -1;
+    overflow: hidden;
+    background-color: #202821;
+    border: 1px solid #b9c5b6;
+    border-radius: 10px;
+    box-shadow: 0 12px 30px rgb(24 37 30 / 12%);
+}
+
+#coords,
+#tp_command {
+    min-width: 0;
+    min-height: 72px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+}
+
+#coords {
+    color: #27362d;
+    background: #f8f9f4;
+    border: 1px solid #d4dbd0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+#coords:empty::before {
+    content: 'Haz clic en el mapa para consultar coordenadas';
+    color: #758176;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+}
+
+#tp_command {
+    justify-content: space-between;
+    gap: 12px;
+    color: #f7f8f1;
+    background: #263b2e;
+    border: 1px solid #263b2e;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: left;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+#tp_command::after {
+    content: 'COPIAR';
+    flex: 0 0 auto;
+    padding: 6px 8px;
+    color: #203020;
+    background: #d4ed5e;
+    border-radius: 4px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+#tp_command:hover {
+    background: #314b39;
+    border-color: #91ad43;
+}
+
+#tp_command:active {
+    transform: translateY(1px);
+}
+
+#tp_command:focus-visible {
+    outline: 3px solid #91ad43;
+    outline-offset: 3px;
+}
+
+.leaflet-control-zoom a {
+    color: #1d3026 !important;
+    background: #f8f9f4 !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background: #d4ed5e !important;
+}
+
+/* Keep Minecraft tiles crisp when the map is zoomed. */
+.leaflet-tile {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+@media (max-width: 700px) {
+    body {
+        min-height: 100svh;
+        padding: 12px;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto minmax(360px, 58svh) auto auto;
+        gap: 10px;
+    }
+
+    h1 {
+        min-height: 64px;
+        padding: 10px 16px;
+        font-size: 27px;
+    }
+
+    #logo {
+        width: 44px;
+        height: 44px;
+    }
+
+    #map {
+        height: 58svh;
+        min-height: 360px;
+        grid-column: 1;
+    }
+
+    #coords,
+    #tp_command {
+        min-height: 62px;
+        padding: 13px 15px;
+        grid-column: 1;
+    }
+}
