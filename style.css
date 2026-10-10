@@ -4,7 +4,7 @@
     color-scheme: light;
     font-family: 'Manrope', sans-serif;
     color: #18251e;
-    background: #e9ede5;
+    background: #3f413d;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -26,22 +26,89 @@ body {
     gap: 14px;
 }
 
-h1 {
+.topbar {
+    position: relative;
     min-height: 78px;
-    margin: 0;
     padding: 12px 22px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
     grid-column: 1 / -1;
     color: #f3f4ed;
     background: #1d3026;
     border-left: 5px solid #d4ed5e;
     border-radius: 10px;
+}
+
+.about-menu {
+    position: relative;
+    z-index: 1000;
+    flex: 0 0 auto;
+}
+
+.about-menu summary {
+    padding: 10px 12px;
+    color: #1d3026;
+    background: #d4ed5e;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.about-section {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: min(90vw, 420px);
+    max-height: min(70vh, 620px);
+    padding: 16px;
+    overflow-y: auto;
+    clip-path: inset(0 round 8px); 
+    color: #18251e;
+    background: #d4ed5e;
+    border: 1px solid #d4dbd0;
+    border-radius: 8px;
+}
+
+h1 {
+    min-width: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: inherit;
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 32px;
     font-weight: 700;
     line-height: 1;
+}
+
+.about-section h2 {
+    margin: 0 0 16px 0; /* Elimina el margen superior por defecto del h2 */
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    border: 2px solid #67af55;
+    border-radius: 8px;
+    background-color: #203020;
+}
+
+.about-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.about-section::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.about-section::-webkit-scrollbar-thumb {
+    background: #a8c435;
+    border-radius: 4px;
 }
 
 #logo {
@@ -57,8 +124,8 @@ h1 {
     min-height: 420px;
     grid-column: 1 / -1;
     overflow: hidden;
-    background-color: #202821;
-    border: 1px solid #b9c5b6;
+    background-color: #f7faf7;
+    border: 1px solid #67af55;
     border-radius: 10px;
     box-shadow: 0 12px 30px rgb(24 37 30 / 12%);
 }
@@ -158,9 +225,19 @@ h1 {
     }
 
     h1 {
+        font-size: 27px;
+    }
+
+    .topbar {
         min-height: 64px;
         padding: 10px 16px;
-        font-size: 27px;
+        gap: 10px;
+    }
+
+    .about-menu summary {
+        padding: 9px 10px;
+        font-size: 12px;
+
     }
 
     #logo {

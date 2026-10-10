@@ -8,11 +8,48 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Mapa iOneMine <img src="assets/logo.png" id="logo" alt=""></h1>
+    <header class="topbar">
+        <h1>
+            Mapa iOneMine <img src="assets/logo.png" id="logo" alt="">
+        </h1>
+        <details class="about-menu">
+            <summary>Acerca de</summary>
+            <section class="about-section">
+                <h2>Sobre iOneMine</h2>
+                
+                <p>
+                    El mapa de nuestro servidor está basado en el trabajo original del 
+                    <a href="https://www.planetminecraft.com/project/one-piece-world-project/" target="_blank" rel="noopener">One Piece World Project</a>. 
+                    Tomando ese vasto mundo como base, lo hemos modificado y adaptado para ofrecer una aventura estilo <strong>MMORPG</strong>: 
+                    modificando islas, creando misiones, diseñando <em>raids</em> e integrando una historia propia inspirada en el universo de One Piece.
+                </p>
+
+                <h3>Equipo de Desarrollo</h3>
+                <ul class="staff-list">
+                    <li>Y4GAM1_S4N</li>
+                    <li>AlyairR4</li>
+                    <li>mawe</li>
+                    <li>D0UNER</li>
+                    <li>FranGabrielli</li>
+                    <li>joaquinxdd2077</li>
+                    <li>ElDonEmpanadas</li>
+                    <li>Unknow</li>
+                    <li>Luckrgb</li>
+                </ul>
+
+                <h3>Contribuidores</h3>
+                <ul class="contributors-list">
+                    <li>Log Quest</li>
+                    <li>N4cho_Gab</li>
+                    <li>RimuruFM</li>
+                </ul>
+            </section>
+        </details>
+    </header>
+
     <div id="map"></div>
     <div id="coords" aria-live="polite"></div>
     <button id="tp_command" type="button" onclick="tp_command()">Haz clic en el mapa para generar el comando</button>
-
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
