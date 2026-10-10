@@ -6,6 +6,19 @@
     <title>Mapa iOneMine</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="style.css">
+    <head>
+    <!-- Favicon clásico -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon_io/favicon.ico">
+    
+    <!-- Favicons en PNG de alta resolución -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon_io/favicon-16x16.png">
+    
+    <!-- Apple Touch Icon (para dispositivos iOS) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon_io/apple-touch-icon.png">
+    
+    <!-- Manifiesto de la aplicación (incluye los iconos de 192x192 y 512x512) -->
+    <link rel="manifest" href="assets/favicon_io/site.webmanifest">
 </head>
 <body>
     <header class="topbar">
@@ -50,6 +63,7 @@
     <div id="map"></div>
     <div id="coords" aria-live="polite"></div>
     <button id="tp_command" type="button" onclick="tp_command()">Haz clic en el mapa para generar el comando</button>
+    <button id="chunks-btn" type="button" onclick="chunks()">Chunks</button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 

@@ -3,6 +3,13 @@ const tileSize = 256;
 const imgWidth = 41844 / tileSize;
 const imgHeight = 12822 / tileSize;
 
+let minecraftX_ingresed = null;
+let minecraftZ_ingresed = null;
+
+// 2. Convertir desde coordenadas de Minecraft a pixeles
+const converted_pixelX = 948 + minecraftX_ingresed;
+const converted_pixelY = minecraftZ_ingresed + 7012;
+
 // 2. CRS.Simple usa latitudes negativas hacia abajo, como las filas de las teselas
 const bounds = L.latLngBounds(
     [-imgHeight, 0],
@@ -39,7 +46,7 @@ map.on('click', function(e) {
     const pixelY = Math.round((imgHeight - Math.abs(e.latlng.lat)) * tileSize);
 
     // 2. Convertir a coordenadas de Minecraft
-    const minecraftX = pixelX - 946;
+    const minecraftX = pixelX - 948;
     const minecraftZ = 7012 - pixelY;
 
     // 3. Actualizar el div correctamente usando `${variable}`
@@ -82,6 +89,74 @@ async function tp_command() {
         alert(`¡Comando copiado!: ${currentTpCommand}`);
     } catch (err) {
         console.error('Error al copiar:', err);
+    }
+}
+
+// Variable para controlar el estado de la capa de chunks y su contenedor
+let chunksLayerGroup = null;
+let chunksVisible = false;
+
+// Función vinculada al botón del HTML
+function chunks() {
+    if (!chunksLayerGroup) {
+        // Inicializamos el grupo de capas la primera vez
+        chunksLayerGroup = L.layerGroup();
+        
+        // Chunk boundaries align to pixel edges, opposite the image origin.
+        const minMC_X = -947;
+        const maxMC_X = imgWidth * tileSize - 947;
+        const minMC_Z = 6834 - imgHeight * tileSize;
+        const maxMC_Z = 6834;
+
+        // Chunk boundaries are 16 blocks apart; major lines mark 32 chunks.
+        for (let x = Math.ceil(minMC_X / 16) * 16; x <= maxMC_X; x += 16) {
+            const mapX = (x + 947) / tileSize;
+            
+            const is32ChunkBoundary = (x % 512 === 0);
+
+            const line = L.polyline(
+                [
+                    [-imgHeight, mapX],
+                    [0, mapX]
+                ], 
+                {
+                    color: is32ChunkBoundary ? '#00ffff' : '#ffffff',
+                    weight: is32ChunkBoundary ? 2 : 1,
+                    dashArray: is32ChunkBoundary ? '5, 5' : null,
+                    opacity: 0.5
+                }
+            );
+            chunksLayerGroup.addLayer(line);
+        }
+
+        // The same spacing and emphasis apply to the Z axis.
+        for (let z = Math.ceil(minMC_Z / 16) * 16; z <= maxMC_Z; z += 16) {
+            const mapY = -(6834 - z) / tileSize;
+            const is32ChunkBoundary = (z % 512 === 0);
+
+            const line = L.polyline(
+                [
+                    [mapY, 0],
+                    [mapY, imgWidth]
+                ], 
+                {
+                    color: is32ChunkBoundary ? '#00ffff' : '#ffffff',
+                    weight: is32ChunkBoundary ? 2 : 1,
+                    dashArray: is32ChunkBoundary ? '5, 5' : null,
+                    opacity: 0.5
+                }
+            );
+            chunksLayerGroup.addLayer(line);
+        }
+    }
+
+    // Alternar visibilidad (activable y desactibable)
+    if (chunksVisible) {
+        map.removeLayer(chunksLayerGroup);
+        chunksVisible = false;
+    } else {
+        map.addLayer(chunksLayerGroup);
+        chunksVisible = true;
     }
 }
 
