@@ -92,27 +92,28 @@ async function tp_command() {
     }
 }
 
-// Variable para controlar el estado de la capa de chunks y su contenedor
+// Variables para controlar el estado y las capas de chunks
 let chunksLayerGroup = null;
+let chunkDetailLayerGroup = null;
 let chunksVisible = false;
 
-// Función vinculada al botón del HTML
 function chunks() {
     if (!chunksLayerGroup) {
-        // Inicializamos el grupo de capas la primera vez
         chunksLayerGroup = L.layerGroup();
+        chunkDetailLayerGroup = L.layerGroup();
         
-        // Chunk boundaries align to pixel edges, opposite the image origin.
         const minMC_X = -947;
         const maxMC_X = imgWidth * tileSize - 947;
         const minMC_Z = 6834 - imgHeight * tileSize;
         const maxMC_Z = 6834;
 
-        // Chunk boundaries are 16 blocks apart; major lines mark 32 chunks.
+        // 1. Generar líneas verticales
         for (let x = Math.ceil(minMC_X / 16) * 16; x <= maxMC_X; x += 16) {
             const mapX = (x + 947) / tileSize;
-            
             const is32ChunkBoundary = (x % 512 === 0);
+            
+            // Si no es múltiplo de 512, pertenece a los chunks normales (cada 16)
+            const isChunkLine = !is32ChunkBoundary;
 
             const line = L.polyline(
                 [
@@ -123,16 +124,19 @@ function chunks() {
                     color: is32ChunkBoundary ? '#00ffff' : '#ffffff',
                     weight: is32ChunkBoundary ? 2 : 1,
                     dashArray: is32ChunkBoundary ? '5, 5' : null,
-                    opacity: 0.5
+                    opacity: 0.5,
+                    // Guardamos una propiedad personalizada para identificar su tipo
+                    className: isChunkLine ? 'chunk-detail-line' : 'chunk-major-line'
                 }
             );
-            chunksLayerGroup.addLayer(line);
+            (isChunkLine ? chunkDetailLayerGroup : chunksLayerGroup).addLayer(line);
         }
 
-        // The same spacing and emphasis apply to the Z axis.
+        // 2. Generar líneas horizontales
         for (let z = Math.ceil(minMC_Z / 16) * 16; z <= maxMC_Z; z += 16) {
             const mapY = -(6834 - z) / tileSize;
             const is32ChunkBoundary = (z % 512 === 0);
+            const isChunkLine = !is32ChunkBoundary;
 
             const line = L.polyline(
                 [
@@ -143,20 +147,42 @@ function chunks() {
                     color: is32ChunkBoundary ? '#00ffff' : '#ffffff',
                     weight: is32ChunkBoundary ? 2 : 1,
                     dashArray: is32ChunkBoundary ? '5, 5' : null,
-                    opacity: 0.5
+                    opacity: 0.5,
+                    className: isChunkLine ? 'chunk-detail-line' : 'chunk-major-line'
                 }
             );
-            chunksLayerGroup.addLayer(line);
+            (isChunkLine ? chunkDetailLayerGroup : chunksLayerGroup).addLayer(line);
         }
     }
 
-    // Alternar visibilidad (activable y desactibable)
+    // Alternar visibilidad general al presionar el botón
     if (chunksVisible) {
         map.removeLayer(chunksLayerGroup);
+        map.removeLayer(chunkDetailLayerGroup);
         chunksVisible = false;
+        // Remover también el escuchador de zoom cuando se apaga
+        map.off('zoomend', updateChunksVisibilityByZoom);
     } else {
         map.addLayer(chunksLayerGroup);
         chunksVisible = true;
+        // Aplicar el filtro según el zoom actual al encender
+        updateChunksVisibilityByZoom();
+        // Escuchar cambios de zoom para actualizar en tiempo real
+        map.on('zoomend', updateChunksVisibilityByZoom);
+    }
+}
+
+// Función auxiliar para mostrar/ocultar líneas internas según el zoom
+function updateChunksVisibilityByZoom() {
+    if (!chunksVisible || !chunksLayerGroup) return;
+
+    const currentZoom = map.getZoom();
+    const showChunkDetails = currentZoom >= 7;
+
+    if (showChunkDetails && !map.hasLayer(chunkDetailLayerGroup)) {
+        map.addLayer(chunkDetailLayerGroup);
+    } else if (!showChunkDetails && map.hasLayer(chunkDetailLayerGroup)) {
+        map.removeLayer(chunkDetailLayerGroup);
     }
 }
 

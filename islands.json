@@ -1,0 +1,35 @@
+[
+  {
+    "nombre": "Chinju no shima",
+    "ubicacion": "East Blue",
+    "pos1": { "x": 2319, "z": -385 },
+    "pos2": { "x": 1792, "z": -912 },
+    "color": "#d4ed5e",
+    "prioridad": 2,
+    "lore": "Isla del gran archimago churumbel que mediante...",
+    "gameplay": "1 mision del gran archimago y farmeo de materiales",
+    "aparicion": "Aparece en el episodio 13 de la temporada 5"
+  },
+  {
+    "nombre": "Zona de exploración 1",
+    "ubicacion": "East Blue",
+    "pos1": { "x": 24287, "z": -273 },
+    "pos2": { "x": 12336, "z": -4016 },
+    "color": "#ff6b6b",
+    "prioridad": 1,
+    "lore": "Es una parte del mapa con islas no canonicas donde se encuentra el main survival",
+    "gameplay": "Es una zona de exploración y farmeo de materiales",
+    "aparicion": "La ziba entera no es canonica y no aparece en ningun episodio"
+  },
+  {
+    "nombre": "Going Merry",
+    "ubicacion": "Chinju no shima",
+    "pos1": { "x": 2271, "z": -385 },
+    "pos2": { "x": 2208, "z": -495 },
+    "color": "#kf6b6b",
+    "prioridad": 3,
+    "lore": "Es el ex barco de los mugiwara que se encuentra en la isla de chinju no shima",
+    "gameplay": "Es un barco que se encuentra en la isla de chinju no shima, se puede explorar y destruir",
+    "aparicion": "One Piece manga y anime — Vol. 44 Capítulo 430 y Episodio 312, El funeral del Going Merry."
+  }
+]
