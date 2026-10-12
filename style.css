@@ -130,34 +130,129 @@ h1 {
     box-shadow: 0 12px 30px rgb(24 37 30 / 12%);
 }
 
-#coords,
+.map-controls,
 #tp_command {
     min-width: 0;
     min-height: 72px;
-    padding: 16px 18px;
+    padding: 14px 18px;
     display: flex;
     align-items: center;
     border-radius: 8px;
 }
 
-#coords {
+.map-controls {
+    grid-column: 1;
+    gap: 22px;
     color: #27362d;
     background: #f8f9f4;
     border: 1px solid #d4dbd0;
+}
+
+.pixel-coordinate-section {
+    min-width: 145px;
+}
+
+.pixel-coordinate-section h2,
+.minecraft-coordinate-section legend {
+    margin: 0 0 7px;
+    color: #47604c;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+#coords {
+    min-height: 22px;
+    display: block;
+    color: #27362d;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13px;
-    line-height: 1.6;
+    line-height: 1.5;
     overflow-wrap: anywhere;
 }
 
-#coords:empty::before {
-    content: 'Haz clic en el mapa para consultar coordenadas';
-    color: #758176;
-    font-family: 'Manrope', sans-serif;
-    font-size: 13px;
+.minecraft-coordinate-section {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.coordinate-fields {
+    display: flex;
+    gap: 8px;
+}
+
+.coordinate-field {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #47604c;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.coordinate-field input {
+    width: 76px;
+    height: 34px;
+    padding: 5px 8px;
+    color: #18251e;
+    background: #fff;
+    border: 1px solid #c9d1c7;
+    border-radius: 4px;
+    font: 500 13px 'IBM Plex Mono', monospace;
+}
+
+.coordinate-field input:focus-visible {
+    border-color: #47604c;
+    outline: 2px solid #91ad43;
+    outline-offset: 1px;
+}
+
+.coordinate-field input[aria-invalid="true"] {
+    border-color: #c33d35;
+    background: #fff4f2;
+}
+
+.coordinate-error {
+    margin: 6px 0 0;
+    color: #a12620;
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+.layer-toggles {
+    margin-left: auto;
+    display: flex;
+    flex: 0 0 auto;
+    gap: 8px;
+}
+
+.layer-toggles button {
+    min-height: 36px;
+    padding: 7px 10px;
+    color: #203020;
+    background: #e8ecdf;
+    border: 1px solid #cdd5c7;
+    border-radius: 5px;
+    font: 700 12px 'Manrope', sans-serif;
+    cursor: pointer;
+}
+
+.layer-toggles button:hover,
+.layer-toggles button[aria-pressed="true"] {
+    background: #d4ed5e;
+    border-color: #91ad43;
+}
+
+.layer-toggles button:focus-visible {
+    outline: 3px solid #91ad43;
+    outline-offset: 2px;
 }
 
 #tp_command {
+    grid-column: 2;
     justify-content: space-between;
     gap: 12px;
     color: #f7f8f1;
@@ -173,6 +268,25 @@ h1 {
     transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 
+#tp_command:disabled {
+    color: #d1d8d0;
+    background: #46564a;
+    border-color: #46564a;
+    cursor: not-allowed;
+}
+
+#tp_command.is-copied {
+    color: #082f49;
+    background: #38bdf8;
+    border-color: #38bdf8;
+}
+
+#tp_command.is-copy-error {
+    color: #fff;
+    background: #a12620;
+    border-color: #a12620;
+}
+
 #tp_command::after {
     content: 'COPIAR';
     flex: 0 0 auto;
@@ -186,9 +300,29 @@ h1 {
     letter-spacing: 0.04em;
 }
 
+#tp_command.is-copied::after,
+#tp_command.is-copy-error::after {
+    display: none;
+}
+
 #tp_command:hover {
     background: #314b39;
     border-color: #91ad43;
+}
+
+#tp_command.is-copied:hover {
+    background: #38bdf8;
+    border-color: #38bdf8;
+}
+
+#tp_command.is-copy-error:hover {
+    background: #a12620;
+    border-color: #a12620;
+}
+
+#tp_command:disabled:hover {
+    background: #46564a;
+    border-color: #46564a;
 }
 
 #tp_command:active {
@@ -207,6 +341,112 @@ h1 {
 
 .leaflet-control-zoom a:hover {
     background: #d4ed5e !important;
+}
+
+.leaflet-tooltip.zone-label {
+    padding: 2px 5px;
+    color: #fff;
+    background: rgb(0 0 0 / 0%);
+    border: 0;
+    box-shadow: none;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    text-shadow: 0 1px 3px #111, 0 0 5px #111;
+    white-space: normal;
+}
+
+.leaflet-tooltip.zone-label::before {
+    display: none;
+}
+
+.zone-info-panel {
+    position: absolute;
+    z-index: 800;
+    top: 16px;
+    bottom: 16px;
+    left: 16px;
+    width: min(360px, 36%);
+    min-width: 260px;
+    padding: 18px;
+    overflow-y: auto;
+    color: #18251e;
+    background: rgb(248 249 244 / 96%);
+    border: 1px solid #d4dbd0;
+    border-left: 5px solid #d4ed5e;
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgb(16 26 19 / 28%);
+    backdrop-filter: blur(8px);
+}
+
+.zone-info-panel[hidden] {
+    display: none;
+}
+
+.zone-info-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #d4dbd0;
+}
+
+.zone-info-header h2 {
+    min-width: 0;
+    margin: 0;
+    color: #1d3026;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 25px;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+
+.zone-info-close {
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    color: #1d3026;
+    background: #e8ecdf;
+    border: 0;
+    border-radius: 4px;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.zone-info-close:hover {
+    background: #d4ed5e;
+}
+
+.zone-info-close:focus-visible {
+    outline: 3px solid #91ad43;
+    outline-offset: 2px;
+}
+
+.zone-info-details {
+    margin: 14px 0 0;
+}
+
+.zone-info-details dt {
+    margin-top: 13px;
+    color: #47604c;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.zone-info-details dt:first-child {
+    margin-top: 0;
+}
+
+.zone-info-details dd {
+    margin: 4px 0 0;
+    font-size: 13px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
 }
 
 /* Keep Minecraft tiles crisp when the map is zoomed. */
@@ -251,10 +491,54 @@ h1 {
         grid-column: 1;
     }
 
-    #coords,
+    .zone-info-panel {
+        top: 10px;
+        bottom: 10px;
+        left: 10px;
+        width: min(280px, 52%);
+        min-width: 0;
+        padding: 14px;
+    }
+
+    .map-controls,
     #tp_command {
         min-height: 62px;
         padding: 13px 15px;
         grid-column: 1;
+    }
+
+    .map-controls {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 14px 18px;
+    }
+
+    .pixel-coordinate-section {
+        min-width: 125px;
+    }
+
+    .minecraft-coordinate-section {
+        flex: 1 1 190px;
+    }
+
+    .coordinate-fields {
+        gap: 6px;
+    }
+
+    .coordinate-field {
+        gap: 4px;
+    }
+
+    .coordinate-field input {
+        width: min(70px, 18vw);
+    }
+
+    .layer-toggles {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .layer-toggles button {
+        flex: 1 1 0;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,10 +61,35 @@
     </header>
 
     <div id="map"></div>
-    <div id="coords" aria-live="polite"></div>
-    <button id="tp_command" type="button" onclick="tp_command()">Haz clic en el mapa para generar el comando</button>
-    <button id="chunks-btn" type="button" onclick="chunks()">Chunks</button>
-    <button id="info_zones" type="button" onclick="info_zones()">Muestra las zonas del mapa</button>
+    <section class="map-controls" aria-label="Coordenadas y capas del mapa">
+        <div class="pixel-coordinate-section">
+            <h2>Píxel</h2>
+            <output id="coords" aria-live="polite">Sin coordenadas</output>
+        </div>
+        <fieldset class="minecraft-coordinate-section">
+            <legend>Coordenadas de Minecraft</legend>
+            <div class="coordinate-fields">
+                <label class="coordinate-field">
+                    <span>X</span>
+                    <input id="minecraft-x" type="text" inputmode="decimal" value="~" autocomplete="off" aria-label="Coordenada Minecraft X">
+                </label>
+                <label class="coordinate-field">
+                    <span>Y</span>
+                    <input id="minecraft-y" type="text" inputmode="decimal" value="~" autocomplete="off" aria-label="Coordenada Minecraft Y">
+                </label>
+                <label class="coordinate-field">
+                    <span>Z</span>
+                    <input id="minecraft-z" type="text" inputmode="decimal" value="~" autocomplete="off" aria-label="Coordenada Minecraft Z">
+                </label>
+            </div>
+            <p id="coordinate-error" class="coordinate-error" role="alert" aria-live="assertive" hidden></p>
+        </fieldset>
+        <div class="layer-toggles" aria-label="Capas del mapa">
+            <button id="info_zones" type="button" title="Muestra las áreas de las diferentes estructuras e islas del mapa" aria-pressed="false">🗾 Zonas</button>
+            <button id="chunks-btn" type="button" title="Muestra la cuadrícula con los chunks y áreas del mapa" aria-pressed="false">🔳 Chunks</button>
+        </div>
+    </section>
+    <button id="tp_command" type="button" aria-live="polite" disabled>Haz clic en el mapa para generar el comando</button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
